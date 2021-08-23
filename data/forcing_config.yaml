@@ -1,0 +1,6 @@
+---
+STAND_ALONE: 1       
+start_time_date: "2007-01-01 00:00:00"
+end_time_date: "2007-12-30 23:00:00"
+Netcdf_File: "C:/Users/lcunha/Documents/GitHub/bmi-example-python/bmi_forcing/cat-3872.nc"
+Debug: 1
