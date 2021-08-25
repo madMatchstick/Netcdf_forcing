@@ -26,15 +26,15 @@ class Forcing(object):
         # NOT SURE IF I NEED IT
         self._long_name = []
         self._units = []
-        # self._time = 0.0
-        # self._time_step = 1.0
+        #self._time = 0.0
+        #self._time_step = 1.0
     def time(self):
         """Current model time."""
         return self._time
         
     @classmethod
     def read_config(cls, file_like):
-        """Create a Heat object from a file-like object.
+        """Create a Forcing object from a file-like object.
         Parameters
         ----------
         file_like : file_like
@@ -83,6 +83,7 @@ class Forcing(object):
  
     # def advance_in_time(self):
     #     """Move cursor"""
+    #
         
     #     self._time += self._time_step
         

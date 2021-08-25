@@ -24,9 +24,9 @@ class BmiForcing(Bmi):
     "land_surface_wind__y_component_of_velocity")
 
     _output_var_types = ("float","float","float","float","float","float","float","float")    
-    _output_var_item_count = (1, 1,1,1,1,1,1,1)
+    _output_var_item_count = (1,1,1,1,1,1,1,1)
     _output_var_units = ("W m-2","Pa","kg kg-1","kg m-2","W m-2","K","m s-1","m s-1")     
-    _output_var_grids = (0, 0,0,0,0,0,0,0)
+    _output_var_grids = (0,0,0,0,0,0,0,0)
     _output_var_locations = ("node","node","node","node","node","node","node","node","node")
 
     #------------------------------------------------------
@@ -59,11 +59,11 @@ class BmiForcing(Bmi):
     def __init__(self):
         """Create a BmiForcing model that is ready for initialization."""
         self._model = None
-        # self._values = {}
-        # self._var_units = {}
-        # self._var_loc = {}
-        # self._grids = {}
-        # self._grid_type = {}
+        #self._values = {}
+        #self._var_units = {}
+        #self._var_loc = {}
+        #self._grids = {}
+        #self._grid_type = {}
         
         self._start_time_index = 0.0
         self._end_time_index = np.finfo("d").max
@@ -89,8 +89,8 @@ class BmiForcing(Bmi):
         else:
             self._model = Forcing.read_config(filename)  
         
-        if(getattr(self._model,'_Debug')==1):print (datetime.fromisoformat(self._model._end_time_date))    
-        if(getattr(self._model,'_Debug')==1):print (datetime.fromisoformat(self._model._start_time_date))
+        if(getattr(self._model,'_Debug')==1):print ("start time: " + str(datetime.fromisoformat(self._model._start_time_date)))    
+        if(getattr(self._model,'_Debug')==1):print ("end time:   " + str(datetime.fromisoformat(self._model._end_time_date)))
         self._end_time_index = int((datetime.fromisoformat(self._model._end_time_date)-datetime.fromisoformat(self._model._start_time_date)).total_seconds()/3600.)
 
         # self._values = {"plate_surface__temperature": self._model.temperature}
@@ -149,8 +149,8 @@ class BmiForcing(Bmi):
         array_like
             Value array.
         """
-        print(self._var_name_map[var_name])
-        print("This is the current time " + str(self._current_time_index))
+        #print(self._var_name_map[var_name])
+        #print("This is the current time " + str(self._current_time_index))
         return getattr(self._model,'_time_series_df')[self._var_name_map[var_name]].iloc[self._current_time_index]
     
     def get_var_type(self, var_name):
@@ -367,10 +367,10 @@ class BmiForcing(Bmi):
         return self._end_time_index
 
     def get_current_time(self):
-        return self._model.time
+        return self._current_time_index
 
     def get_time_step(self):
-        return self._model.time_step
+        return self._time_step
 
     def get_time_units(self):
         return self._time_units
@@ -412,11 +412,14 @@ if __name__=="__main__":
     bmi=BmiForcing()
     file_like="C:/Users/JessicaGarrett/Documents/repos/Netcdf_forcing/data/forcing_config.yaml"
     bmi.initialize(filename=file_like)
-    bmi.get_start_time()
-    bmi.get_end_time()
-    bmi.get_value_ptr('land_surface_radiation~incoming~longwave__energy_flux')
-    bmi.update()
-    bmi.get_value_ptr('land_surface_radiation~incoming~longwave__energy_flux')
-    # Netcdf_File="C:/Users/lcunha/Documents/GitHub/bmi-example-python/bmi_forcing/cat-3872.nc"
-    # [Time_series,long_name,units]=read_forcing(start_time, end_time,Netcdf_File)
+    
+    if(getattr(bmi._model,'_Debug')==1):
+        print ("get_start_time: " + str(bmi.get_start_time()))
+        print ("get_end_time:   " + str(bmi.get_end_time()))
+    for _ in range(20):
+        bmi.update()
+        if(getattr(bmi._model,'_Debug')==1):
+            print ("get_current_time: " + str(bmi.get_current_time()))
+            print (str(bmi.get_value_ptr('land_surface_radiation~incoming~longwave__energy_flux')))
+
     
