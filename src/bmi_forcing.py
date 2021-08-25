@@ -3,8 +3,7 @@
 
 import numpy as np
 from bmipy import Bmi
-import sys
-sys.path.append("P:/2015/USACEFTW/Code/StreamFlowData-master/");
+#import sys
 from read_forcing_object import Forcing
 BMI_SUCCESS = 1
 
@@ -411,7 +410,7 @@ class BmiForcing(Bmi):
 if __name__=="__main__":
     
     bmi=BmiForcing()
-    file_like="C:/Users/lcunha/Documents/GitHub/bmi-example-python/bmi_forcing/forcing_config.yaml"
+    file_like="C:/Users/JessicaGarrett/Documents/repos/Netcdf_forcing/data/forcing_config.yaml"
     bmi.initialize(filename=file_like)
     bmi.get_start_time()
     bmi.get_end_time()

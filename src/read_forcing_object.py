@@ -12,7 +12,7 @@ class Forcing(object):
         STAND_ALONE=1,
         start_time_date="2007-01-01 05:00:00", 
         end_time_date="2007-01-10 05:00:00",
-        Netcdf_File="C:/Users/lcunha/Documents/GitHub/bmi-example-python/bmi_forcing/cat-3872.nc",
+        Netcdf_File="C:/Users/JessicaGarrett/Documents/repos/Netcdf_forcing/data/cat-3872.nc",
         Debug=1
     ):    
         """Create a new Forcing model."""
