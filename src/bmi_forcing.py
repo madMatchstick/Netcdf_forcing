@@ -407,19 +407,4 @@ class BmiForcing(Bmi):
 
 
 
-if __name__=="__main__":
-    
-    bmi=BmiForcing()
-    file_like="C:/Users/JessicaGarrett/Documents/repos/Netcdf_forcing/data/forcing_config.yaml"
-    bmi.initialize(filename=file_like)
-    
-    if(getattr(bmi._model,'_Debug')==1):
-        print ("get_start_time: " + str(bmi.get_start_time()))
-        print ("get_end_time:   " + str(bmi.get_end_time()))
-    for _ in range(20):
-        bmi.update()
-        if(getattr(bmi._model,'_Debug')==1):
-            print ("get_current_time: " + str(bmi.get_current_time()))
-            print (str(bmi.get_value_ptr('land_surface_radiation~incoming~longwave__energy_flux')))
-
     
