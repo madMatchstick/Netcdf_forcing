@@ -23,11 +23,12 @@ class BmiForcing(Bmi):
     "land_surface_wind__x_component_of_velocity",
     "land_surface_wind__y_component_of_velocity")
 
-    _output_var_types = ("float","float","float","float","float","float","float","float")    
-    _output_var_item_count = (1,1,1,1,1,1,1,1)
-    _output_var_units = ("W m-2","Pa","kg kg-1","kg m-2","W m-2","K","m s-1","m s-1")     
-    _output_var_grids = (0,0,0,0,0,0,0,0)
-    _output_var_locations = ("node","node","node","node","node","node","node","node","node")
+    # types array unneeded as we are directly calling python's dtype    
+    #_output_var_types = ("float","float","float","float","float","float","float","float")    
+    #_output_var_item_count = (1,1,1,1,1,1,1,1)
+    #_output_var_units = ("W m-2","Pa","kg kg-1","kg m-2","W m-2","K","m s-1","m s-1")     
+    #_output_var_grids = (0,0,0,0,0,0,0,0)
+    #_output_var_locations = ("node","node","node","node","node","node","node","node","node")
 
     #------------------------------------------------------
     # Create a Python dictionary that maps CSDMS Standard
@@ -61,9 +62,10 @@ class BmiForcing(Bmi):
         self._model = None
         #self._values = {}
         #self._var_units = {}
-        #self._var_loc = {}
-        #self._grids = {}
-        #self._grid_type = {}
+        # this 2 could be mapped dictionary but all are same
+        self._var_loc = "node" 
+        self._grids = 0
+        self._grid_type = {0: "scalar"}
         
         self._start_time_index = 0.0
         self._end_time_index = np.finfo("d").max
@@ -181,7 +183,7 @@ class BmiForcing(Bmi):
         str
             Variable units.
         """
-        return self._var_units[var_name]
+        return self._var_units_map[var_name]
 
     def get_var_nbytes(self, var_name):
         """Get units of variable.
@@ -202,7 +204,9 @@ class BmiForcing(Bmi):
         return np.dtype(self.get_var_type(name)).itemsize
 
     def get_var_location(self, name):
-        return self._var_loc[name]
+        
+        if name in self._output_var_names:
+            return self._var_loc
 
     def get_var_grid(self, var_name):
         """Grid id for a variable.
@@ -217,9 +221,12 @@ class BmiForcing(Bmi):
         int
             Grid id.
         """
-        for grid_id, var_name_list in self._grids.items():
-            if var_name in var_name_list:
-                return grid_id
+        # for grid_id, var_name_list in self._grids.items():
+        #     if var_name in var_name_list:
+        #         return grid_id
+        
+        if var_name in self._output_var_names:
+            return self._grids  
 
     def get_grid_rank(self, grid_id):
         """Rank of grid.
@@ -234,7 +241,8 @@ class BmiForcing(Bmi):
         int
             Rank of grid.
         """
-        return len(self._model.shape)
+        if grid_id == 0:
+            return 1
 
     def get_grid_size(self, grid_id):
         """Size of grid.
@@ -249,7 +257,8 @@ class BmiForcing(Bmi):
         int
             Size of grid.
         """
-        return int(np.prod(self._model.shape))
+        if grid_id == 0:
+            return 1
 
 
     def get_value(self, var_name, dest):
@@ -339,20 +348,13 @@ class BmiForcing(Bmi):
         return self._output_var_names
 
     def get_grid_shape(self, grid_id, shape):
-        """Number of rows and columns of uniform rectilinear grid."""
-        var_name = self._grids[grid_id][0]
-        shape[:] = self.get_value_ptr(var_name).shape
-        return shape
+        raise NotImplementedError("get_grid_shape")
 
     def get_grid_spacing(self, grid_id, spacing):
-        """Spacing of rows and columns of uniform rectilinear grid."""
-        spacing[:] = self._model.spacing
-        return spacing
+        raise NotImplementedError("get_grid_spacing")
 
     def get_grid_origin(self, grid_id, origin):
-        """Origin of uniform rectilinear grid."""
-        origin[:] = self._model.origin
-        return origin
+        raise NotImplementedError("get_grid_origin")
 
     def get_grid_type(self, grid_id):
         """Type of grid."""
