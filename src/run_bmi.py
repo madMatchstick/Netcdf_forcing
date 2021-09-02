@@ -3,6 +3,7 @@ Author: jgarrett
 Date: 08/31/2021"""
 
 import os
+import numpy as np
 from bmi_forcing import BmiForcing
 
 bmi=BmiForcing()
@@ -46,12 +47,15 @@ if(getattr(bmi._model,'_Debug')==1):
     print (" time step: " + str(bmi.get_time_step()))
     print (" time units: " + bmi.get_time_units())
 
+dest = np.empty(bmi.get_grid_size(0), dtype=float)
 for _ in range(5):
     bmi.update()
     if(getattr(bmi._model,'_Debug')==1):
         print ("\nget_current_time: " + str(bmi.get_current_time()))
         for var_name in bmi.get_output_var_names():  
-            print (" " + var_name + ": " + str(bmi.get_value_ptr(var_name)))
+            print (" " + var_name + ":" )
+            print ("  get value ptr: " + str(bmi.get_value_ptr(var_name)))
+            print ("  get value: " + str(bmi.get_value(var_name, dest)))
 
 bmi.finalize()        
     

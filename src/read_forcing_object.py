@@ -23,7 +23,6 @@ class Forcing(object):
         self._Netcdf_File = Netcdf_File     
         self._Debug = Debug          
         self._time_series_df = pd.DataFrame()
-        # NOT SURE IF I NEED IT
         self._long_name = []
         self._units = []
         self._time = 0.0

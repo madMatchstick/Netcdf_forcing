@@ -22,14 +22,7 @@ class BmiForcing(Bmi):
     "land_surface_air__temperature",
     "land_surface_wind__x_component_of_velocity",
     "land_surface_wind__y_component_of_velocity")
-
-    # types array unneeded as we are directly calling python's dtype    
-    #_output_var_types = ("float","float","float","float","float","float","float","float")    
-    #_output_var_item_count = (1,1,1,1,1,1,1,1)
-    #_output_var_units = ("W m-2","Pa","kg kg-1","kg m-2","W m-2","K","m s-1","m s-1")     
-    #_output_var_grids = (0,0,0,0,0,0,0,0)
-    #_output_var_locations = ("node","node","node","node","node","node","node","node","node")
-
+    
     #------------------------------------------------------
     # Create a Python dictionary that maps CSDMS Standard
     # Names to the model's internal variable names.
@@ -62,7 +55,8 @@ class BmiForcing(Bmi):
         self._model = None
         #self._values = {}
         #self._var_units = {}
-        # this 2 could be mapped dictionary but all are same
+        
+        # these could be mapped dictionaries but all are same
         #self._var_loc = "node" 
         #self._grids = 0
         #self._grid_type = {0: "scalar"}
@@ -94,12 +88,6 @@ class BmiForcing(Bmi):
         if(getattr(self._model,'_Debug')==1):print ("start time: " + str(datetime.fromisoformat(self._model._start_time_date)))    
         if(getattr(self._model,'_Debug')==1):print ("end time:   " + str(datetime.fromisoformat(self._model._end_time_date)))
         self._end_time_index = int((datetime.fromisoformat(self._model._end_time_date)-datetime.fromisoformat(self._model._start_time_date)).total_seconds()/3600.)
-
-        # self._values = {"plate_surface__temperature": self._model.temperature}
-        # self._var_units = {"plate_surface__temperature": "K"}
-        # self._var_loc = {"plate_surface__temperature": "node"}
-        # self._grids = {0: ["plate_surface__temperature"]}
-        # self._grid_type = {0: "uniform_rectilinear"}
         
         self._model.read_forcing()        
         
