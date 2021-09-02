@@ -63,9 +63,9 @@ class BmiForcing(Bmi):
         #self._values = {}
         #self._var_units = {}
         # this 2 could be mapped dictionary but all are same
-        self._var_loc = "node" 
-        self._grids = 0
-        self._grid_type = {0: "scalar"}
+        #self._var_loc = "node" 
+        #self._grids = 0
+        #self._grid_type = {0: "scalar"}
         
         self._start_time_index = 0.0
         self._end_time_index = np.finfo("d").max
@@ -206,7 +206,7 @@ class BmiForcing(Bmi):
     def get_var_location(self, name):
         
         if name in self._output_var_names:
-            return self._var_loc
+            return "node"
 
     def get_var_grid(self, var_name):
         """Grid id for a variable.
@@ -225,8 +225,9 @@ class BmiForcing(Bmi):
         #     if var_name in var_name_list:
         #         return grid_id
         
+        # all vars have grid 0 but check if its in names list first
         if var_name in self._output_var_names:
-            return self._grids  
+            return 0  
 
     def get_grid_rank(self, grid_id):
         """Rank of grid.
@@ -358,7 +359,8 @@ class BmiForcing(Bmi):
 
     def get_grid_type(self, grid_id):
         """Type of grid."""
-        return self._grid_type[grid_id]
+        if grid_id == 0:
+            return "scalar"
 
     def get_start_time(self):
         """Start time of model."""

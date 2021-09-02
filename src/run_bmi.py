@@ -13,8 +13,6 @@ cfg_file=os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data',
 bmi.initialize(cfg_file)
 
 if(getattr(bmi._model,'_Debug')==1):
-    print ("get_start_time: " + str(bmi.get_start_time()))
-    print ("get_end_time:   " + str(bmi.get_end_time()))
 
     print("\nMODEL INFORMATION\n*****************")
     print (" component name: " + bmi.get_component_name())
@@ -32,17 +30,21 @@ if(getattr(bmi._model,'_Debug')==1):
         print ("  itemsize: " + str(bmi.get_var_itemsize(var_name)))
         print ("  type: " + bmi.get_var_type(var_name))
         print ("  nbytes: " + str(bmi.get_var_nbytes(var_name)))
-        print ("  grid: " + str(bmi.get_var_grid(var_name)))
+        print ("  grid id: " + str(bmi.get_var_grid(var_name)))
         print ("  location: " + bmi.get_var_location(var_name))
         
     print("\nGRID INFORMATION\n****************")
     grid_id = 0 #there is only 1
-    print (" grid_id: " + str(grid_id))
+    print (" grid id: " + str(grid_id))
     print ("  rank: " + str(bmi.get_grid_rank(grid_id)))
     print ("  size: " + str(bmi.get_grid_size(grid_id)))
     print ("  type: " + bmi.get_grid_type(grid_id))
     
-    #print("\nTIME INFORMATION\n****************\n")
+    print("\nTIME INFORMATION\n****************\n")
+    print (" start time: " + str(bmi.get_start_time()))
+    print (" end time: " + str(bmi.get_end_time()))
+    print (" time step: " + str(bmi.get_time_step()))
+    print (" time units: " + bmi.get_time_units())
 
 for _ in range(5):
     bmi.update()
