@@ -3,7 +3,6 @@
 
 import numpy as np
 from bmipy import Bmi
-#import sys
 from read_forcing_object import Forcing
 BMI_SUCCESS = 1
 
@@ -193,6 +192,8 @@ class BmiForcing(Bmi):
 
     def get_var_location(self, name):
         
+        # all vars are "node" but check if its in names list first
+        # we only have output vars
         if name in self._output_var_names:
             return "node"
 
@@ -214,6 +215,7 @@ class BmiForcing(Bmi):
         #         return grid_id
         
         # all vars have grid 0 but check if its in names list first
+        # we only have output vars
         if var_name in self._output_var_names:
             return 0  
 
@@ -230,6 +232,7 @@ class BmiForcing(Bmi):
         int
             Rank of grid.
         """
+        # 0 is the only id we have
         if grid_id == 0:
             return 1
 
@@ -246,6 +249,7 @@ class BmiForcing(Bmi):
         int
             Size of grid.
         """
+       # 0 is the only id we have
         if grid_id == 0:
             return 1
 

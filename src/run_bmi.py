@@ -47,7 +47,9 @@ if(getattr(bmi._model,'_Debug')==1):
     print (" time step: " + str(bmi.get_time_step()))
     print (" time units: " + bmi.get_time_units())
 
-dest = np.empty(bmi.get_grid_size(0), dtype=float)
+dest0 = np.empty(bmi.get_grid_size(0), dtype=float)
+dest1 = np.empty(1, dtype=float)
+
 for _ in range(5):
     bmi.update()
     if(getattr(bmi._model,'_Debug')==1):
@@ -55,7 +57,11 @@ for _ in range(5):
         for var_name in bmi.get_output_var_names():  
             print (" " + var_name + ":" )
             print ("  get value ptr: " + str(bmi.get_value_ptr(var_name)))
-            print ("  get value: " + str(bmi.get_value(var_name, dest)))
+            print ("  get value: " + str(bmi.get_value(var_name, dest0)))
+            try: 
+                test_get_value_at_indices = bmi.get_value_at_indices(var_name, dest1, [0])
+                print ("  get value at indices: " + str( test_get_value_at_indices))
+            except: print("some bmi error")
 
 bmi.finalize()        
     
