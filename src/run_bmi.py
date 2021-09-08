@@ -62,6 +62,9 @@ for _ in range(5):
                 test_get_value_at_indices = bmi.get_value_at_indices(var_name, dest1, [0])
                 print ("  get value at indices: " + str( test_get_value_at_indices))
             except: print("some bmi error")
+bmi.update_until(100000)
+if(getattr(bmi._model,'_Debug')==1):
+    print ("\nget_current_time: " + str(bmi.get_current_time()))
 
 bmi.finalize()        
     

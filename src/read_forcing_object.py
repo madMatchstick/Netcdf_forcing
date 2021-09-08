@@ -26,7 +26,7 @@ class Forcing(object):
         self._long_name = []
         self._units = []
         self._time = 0.0
-        #self._time_step = 1.0
+        self._time_step = 1.0
     def time(self):
         """Current model time."""
         return self._time
