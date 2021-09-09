@@ -217,9 +217,8 @@ try:
 except:
     bmi_except('get_time_units()')
 
-# setup arrays for get_value_*
-dest0 = np.empty(bmi.get_grid_size(0), dtype=float)
-dest1 = np.empty(1, dtype=float)
+# setup array for get_value_*
+dest = np.empty(bmi.get_grid_size(0), dtype=float)
 
 # update()
 try:
@@ -246,7 +245,7 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
     # get_value()
     try:
-        print ("  get value: " + str(bmi.get_value(var_name, dest0)))
+        print ("  get value: " + str(bmi.get_value(var_name, dest)))
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
@@ -254,11 +253,40 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
     # get_value_at_indices()    
     try: 
-        print ("  get value at indices: " + str(bmi.get_value_at_indices(var_name, dest1, [0])))
+        print ("  get value at indices: " + str(bmi.get_value_at_indices(var_name, dest, [0])))
         if var_name_counter1 == 0: 
             pass_count += 1
     except: 
         bmi_except('get_value_at_indices()')
+
+
+    # 09.09.2021 SETTERS NOT WORKING
+
+    # set_value()
+    #ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 1
+    #print (ind)
+    #bmi.set_value(var_name, ind)
+    try:
+        #ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 1
+        #bmi.set_value(var_name, ind)
+        t[0] = -99.9
+        bmi.set_value(var_name, t)
+        #print ("  set value: " + str(bmi.set_value(var_name, ind)))
+        if var_name_counter1 == 0: 
+            pass_count += 1
+    except:
+        bmi_except('set_value()')
+
+    # set_value_at_indices()    
+    try:
+        bmi.set_value_at_indices(var_name,[0], [-99])
+        print ("  set value at indices: -99")
+        print ("  new value at indices: " + str(bmi.get_value_at_indices(var_name, dest, [0])))         
+        if var_name_counter1 == 0: 
+            pass_count += 1
+    except:
+        bmi_except('set_value_at_indices')
+    
 
     var_name_counter1 += 1
 
