@@ -1,4 +1,4 @@
-"""Run BMI Forcing Data Model.
+"""Run BMI Unit Testing.
 Author: jgarrett
 Date: 08/31/2021"""
 
@@ -261,17 +261,20 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
 
     # 09.09.2021 SETTERS NOT WORKING
+    # set_value(): thros TypeError: 'numpy.float32' object does not support item assignment
+    # set_value_at_indices(): no err but value is not updating
 
+    # from csdms bmi-example:
+    # ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 1
+    # print (ind)
+    # bmi.set_value(var_name, ind)
     # set_value()
-    #ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 1
-    #print (ind)
-    #bmi.set_value(var_name, ind)
     try:
-        #ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 1
-        #bmi.set_value(var_name, ind)
-        t[0] = -99.9
-        bmi.set_value(var_name, t)
-        #print ("  set value: " + str(bmi.set_value(var_name, ind)))
+        ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 1
+        bmi.set_value(var_name, ind)
+        # t[0] = -99.9
+        # bmi.set_value(var_name, t)
+        # print ("  set value: " + str(bmi.set_value(var_name, ind)))
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
