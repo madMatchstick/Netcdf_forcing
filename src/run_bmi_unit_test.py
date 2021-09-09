@@ -170,17 +170,49 @@ except:
     bmi_except('get_grid_type')    
 
 print("\nTIME INFORMATION\n****************")
-print (" start time: " + str(bmi.get_start_time()))
-print (" end time: " + str(bmi.get_end_time()))
-print (" time step: " + str(bmi.get_time_step()))
-print (" time units: " + bmi.get_time_units())
+
+# get_start_time()
+try:
+    print (" start time: " + str(bmi.get_start_time()))
+    pass_count += 1
+except:
+    bmi_except('get_start_time')
+
+# get_end_time()
+try:
+    print (" end time: " + str(bmi.get_end_time()))
+    pass_count += 1
+except:
+    bmi_except('get_end_time')
+
+# get_current_time()
+try:
+    print (" current time: " + str(bmi.get_current_time()))
+    pass_count += 1
+except:
+    bmi_except('get_current_time')
+        
+# get_time_step()
+try:
+    print (" time step: " + str(bmi.get_time_step()))
+    pass_count += 1
+except:
+    bmi_except('get_time_step')
+
+# get_time_units()
+try:
+    print (" time units: " + bmi.get_time_units())
+    pass_count += 1
+except:
+    bmi_except('get_time_units')
+
 
 dest0 = np.empty(bmi.get_grid_size(0), dtype=float)
 dest1 = np.empty(1, dtype=float)
 
 for _ in range(5):
     bmi.update()
-    print ("\nget_current_time: " + str(bmi.get_current_time()))
+    print ("get_current_time: " + str(bmi.get_current_time()))
     for var_name in bmi.get_output_var_names():  
         print (" " + var_name + ":" )
         print ("  get value ptr: " + str(bmi.get_value_ptr(var_name)))
