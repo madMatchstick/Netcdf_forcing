@@ -123,6 +123,15 @@ class BmiForcing(Bmi):
         self._model = None
         return BMI_SUCCESS;       
 
+    #-------------------------------------------------------------------
+    # BMI: Variable Information Functions
+    #-------------------------------------------------------------------
+    def get_var_name(self, var_name):
+            
+        return self._var_name_map[ var_name ]
+
+    #   get_var_name()
+    #-------------------------------------------------------------------
 
     def get_value_ptr(self, var_name):
         #Done - LKC 
@@ -292,18 +301,22 @@ class BmiForcing(Bmi):
         dest[:] = self.get_value_ptr(var_name).take(indices)
         return dest
 
-    def set_value(self, var_name, src):
+    def set_value(self, var_name, value):
         """Set model values.
 
         Parameters
         ----------
         var_name : str
             Name of variable as CSDMS Standard Name.
-        src : array_like
+        value : array_like
             Array of new values.
         """
-        val = self.get_value_ptr(var_name)
-        val[:] = src
+        # from csdms example:
+        # val = self.get_value_ptr(var_name)
+        # val[0] = src
+        
+        var_name = self.get_var_name( var_name )
+        setattr( self, var_name, value )
 
     def set_value_at_indices(self, name, inds, src):
         """Set model values at particular indices.
