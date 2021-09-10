@@ -84,13 +84,13 @@ class BmiForcing(Bmi):
         else:
             self._model = Forcing.read_config(filename)  
         
-        if(getattr(self._model,'_Debug')==1):print ("start time: " + str(datetime.fromisoformat(self._model._start_time_date)))    
-        if(getattr(self._model,'_Debug')==1):print ("end time:   " + str(datetime.fromisoformat(self._model._end_time_date)))
+        #if(getattr(self._model,'_Debug')==1):print ("start time: " + str(datetime.fromisoformat(self._model._start_time_date)))    
+        #if(getattr(self._model,'_Debug')==1):print ("end time:   " + str(datetime.fromisoformat(self._model._end_time_date)))
         self._end_time_index = int((datetime.fromisoformat(self._model._end_time_date)-datetime.fromisoformat(self._model._start_time_date)).total_seconds()/3600.)
         
         self._model.read_forcing()        
         
-        if(getattr(self._model,'_Debug')==1): print(getattr(self._model,'_time_series_df'))       
+        #if(getattr(self._model,'_Debug')==1): print(getattr(self._model,'_time_series_df'))       
         return BMI_SUCCESS;       
 
     def update(self):
@@ -280,6 +280,23 @@ class BmiForcing(Bmi):
         """
         dest[:] = self.get_value_ptr(var_name).flatten()
         return dest
+    # def get_value(self, var_name):
+    
+    #     var_name = self.get_var_name( var_name )
+
+    #     try:
+    #         return getattr(self, var_name)
+
+    #         #----------------------------
+    #         # This breaks the reference.
+    #         #----------------------------
+    #         ## return np.float64(result)
+            
+    #     except:
+    #         print('ERROR in get_value() function')
+    #         print('    for var_name =', var_name)
+    #         print('    Returning 0.')
+    #         return np.array(0, dtype='float64')
 
     def get_value_at_indices(self, var_name, dest, indices):
         """Get values at particular indices.

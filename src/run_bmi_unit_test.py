@@ -261,6 +261,16 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
     except: 
         bmi_except('get_value_at_indices()')
 
+    
+    # NOTE 09.10.2021:
+    #   - SETTER functions are "passing" but cannot confirm proper behavior here
+    #   as new get_value* not returning the same value as what was just set.
+    #   - Two possibilities:
+    #       1. Definitions themselves are faulty
+    #       2. The way I am calling set_value*() is wrong    
+    #   - Confident that get_value* functions are correct
+    #   - See end of file for current console output
+
     # set_value()
     try:
         # from csdm example
@@ -268,9 +278,9 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
         bmi.set_value(var_name, ind)
         #print(ind)
         print ("  set value: -99")
-        print ("  new value: " + str(bmi.get_value_ptr(var_name)))
-        #dest1 = np.empty(bmi.get_grid_size(0), dtype=float)
-        #print ("  new value: " + str(bmi.get_value(var_name, dest1)))    
+        #print ("  new value: " + str(bmi.get_value_ptr(var_name)))
+        dest1 = np.empty(bmi.get_grid_size(0), dtype=float)
+        print ("  new value: " + str(bmi.get_value(var_name, dest1)))    
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
@@ -280,8 +290,9 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
     try:
         bmi.set_value_at_indices(var_name,[0], [-9])
         print ("  set value at indices: -9")
-        #print ("  new value at indices: " + str(bmi.get_value_at_indices(var_name, dest, [0])))
-        print ("  new value: " + str(bmi.get_value_ptr(var_name)))         
+        dest2 = np.empty(bmi.get_grid_size(0), dtype=float)
+        print ("  new value at indices: " + str(bmi.get_value_at_indices(var_name, dest2, [0])))
+        #print ("  new value: " + str(bmi.get_value_ptr(var_name)))         
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
@@ -305,7 +316,9 @@ for var_name in bmi.get_output_var_names():
 
 # update_until()
 try:
-    bmi.update_until(100000)
+    # We have run update 1x (3600)
+    # bmi.update_until(18001) # this runs for 6 time steps, as expected
+    bmi.update_until(18000) # 3600 x 5 = 18,000
     print (" \nupdating untill...");
     pass_count += 1
     # go ahead and print time to show iteration
@@ -321,12 +334,188 @@ try:
 except:
     bmi_except('finalize()')
 
+# lastly - print test summary
 print (" Total BMI function PASS: " + str(pass_count))
 print (" Total BMI function FAIL: " + str(fail_count))
 for ff in fail_list:
     print ("  " + ff)
 #print (str(var_name_counter0))
 #print (str(var_name_counter1))
+
+
+# 09.10.2021 console output
+
+# BEGIN BMI UNIT TEST
+# *******************
+
+#  configuration found: C:\Users\JessicaGarrett\Documents\repos\Netcdf_forcing\data\forcing_config.yaml
+#  initializing...
+
+# MODEL INFORMATION
+# *****************
+#  component name: Forcing BMI
+#  input item count: 0
+#  output item count: 8
+#  output var names: 
+#   land_surface_radiation~incoming~longwave__energy_flux
+#   land_surface_air__pressure
+#   atmosphere_air_water~vapor__relative_saturation
+#   atmosphere_water__liquid_equivalent_precipitation_rate
+#   land_surface_radiation~incoming~shortwave__energy_flux
+#   land_surface_air__temperature
+#   land_surface_wind__x_component_of_velocity
+#   land_surface_wind__y_component_of_velocity
+
+# VARIABLE INFORMATION
+# ********************
+#  land_surface_radiation~incoming~longwave__energy_flux:
+#   units: W m-2
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  land_surface_air__pressure:
+#   units: Pa
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  atmosphere_air_water~vapor__relative_saturation:
+#   units: kg kg-1
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  atmosphere_water__liquid_equivalent_precipitation_rate:
+#   units: kg m-2
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  land_surface_radiation~incoming~shortwave__energy_flux:
+#   units: W m-2
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  land_surface_air__temperature:
+#   units: K
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  land_surface_wind__x_component_of_velocity:
+#   units: m s-1
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+#  land_surface_wind__y_component_of_velocity:
+#   units: m s-1
+#   itemsize: 4
+#   type: float32
+#   nbytes: 4
+#   grid id: 0
+#   location: node
+
+# GRID INFORMATION
+# ****************
+#  grid id: 0
+#   rank: 1
+#   size: 1
+#   type: scalar
+
+# TIME INFORMATION
+# ****************
+#  start time: 0.0
+#  end time: 8735
+#  current time: 0
+#  time step: 3600
+#  time units: s
+ 
+# updating...
+#  current time: 1
+
+# GET AND SET VALUES
+# ******************
+#  land_surface_radiation~incoming~longwave__energy_flux:
+#   get value ptr: 186.20277
+#   get value: [186.20277405]
+#   get value at indices: [186.20277405]
+#   set value: -99
+#   new value: [186.20277405]
+#   set value at indices: -9
+#   new value at indices: [186.20277405]
+#  land_surface_air__pressure:
+#   get value ptr: 100176.125
+#   get value: [100176.125]
+#   get value at indices: [100176.125]
+#   set value: -99
+#   new value: [100176.125]
+#   set value at indices: -9
+#   new value at indices: [100176.125]
+#  atmosphere_air_water~vapor__relative_saturation:
+#   get value ptr: 0.0012886765
+#   get value: [0.00128868]
+#   get value at indices: [0.00128868]
+#   set value: -99
+#   new value: [0.00128868]
+#   set value at indices: -9
+#   new value at indices: [0.00128868]
+#  atmosphere_water__liquid_equivalent_precipitation_rate:
+#   get value ptr: 0.0
+#   get value: [0.]
+#   get value at indices: [0.]
+#   set value: -99
+#   new value: [0.]
+#   set value at indices: -9
+#   new value at indices: [0.]
+#  land_surface_radiation~incoming~shortwave__energy_flux:
+#   get value ptr: 0.0
+#   get value: [0.]
+#   get value at indices: [0.]
+#   set value: -99
+#   new value: [0.]
+#   set value at indices: -9
+#   new value at indices: [0.]
+#  land_surface_air__temperature:
+#   get value ptr: 260.83646
+#   get value: [260.8364563]
+#   get value at indices: [260.8364563]
+#   set value: -99
+#   new value: [260.8364563]
+#   set value at indices: -9
+#   new value at indices: [260.8364563]
+#  land_surface_wind__x_component_of_velocity:
+#   get value ptr: 0.098618925
+#   get value: [0.09861892]
+#   get value at indices: [0.09861892]
+#   set value: -99
+#   new value: [0.09861892]
+#   set value at indices: -9
+#   new value at indices: [0.09861892]
+#  land_surface_wind__y_component_of_velocity:
+#   get value ptr: -1.759618
+#   get value: [-1.75961804]
+#   get value at indices: [-1.75961804]
+#   set value: -99
+#   new value: [-1.75961804]
+#   set value at indices: -9
+#   new value at indices: [-1.75961804]
+ 
+# updating untill...
+#  current time: 5
+ 
+# finalizing...
+#  Total BMI function PASS: 28
+#  Total BMI function FAIL: 0
 
 
     

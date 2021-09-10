@@ -53,7 +53,7 @@ class Forcing(object):
         """Reads netcdf for specific time window  """
         import netCDF4 as netcdf
 
-        print (self._Netcdf_File)
+        #print (self._Netcdf_File)
         nc = netcdf.Dataset(self._Netcdf_File)
         #varsInFile = nc.variables.keys()
         time_units = nc.variables['Time'].units
@@ -62,17 +62,17 @@ class Forcing(object):
     
         if("hours since " in time_units):
             date_from=datetime.fromisoformat(time_units.replace("hours since ",""))
-            print (date_from)
+            #print (date_from)
         else:
-            print ("Check units ")
+            #print ("Check units ")
             exit(0)
         index_beg=int((datetime.fromisoformat(self._start_time_date)-date_from).total_seconds()/3600)
-        print (index_beg)
+        #print (index_beg)
         if(self._end_time_date==-9):
             index_end=index_beg+1
         else:
             index_end=int((datetime.fromisoformat(self._end_time_date)-date_from).total_seconds()/3600)
-        print (index_end)
+        #print (index_end)
         for v in vname:
             Temp_df=pd.DataFrame(nc.variables[v][index_beg:index_end].data,columns=[v])
             self._time_series_df = pd.concat([self._time_series_df, Temp_df], axis=1)
