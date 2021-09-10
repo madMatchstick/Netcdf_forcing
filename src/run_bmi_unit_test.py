@@ -218,7 +218,7 @@ except:
     bmi_except('get_time_units()')
 
 # setup array for get_value_*
-dest = np.empty(bmi.get_grid_size(0), dtype=float)
+# dest = np.empty(bmi.get_grid_size(0), dtype=float)
 
 # update()
 try:
@@ -245,6 +245,7 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
     # get_value()
     try:
+        dest = np.empty(bmi.get_grid_size(0), dtype=float)
         print ("  get value: " + str(bmi.get_value(var_name, dest)))
         if var_name_counter1 == 0: 
             pass_count += 1
@@ -253,7 +254,8 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
     # get_value_at_indices()    
     try: 
-        print ("  get value at indices: " + str(bmi.get_value_at_indices(var_name, dest, [0])))
+        dest0 = np.empty(bmi.get_grid_size(0), dtype=float)
+        print ("  get value at indices: " + str(bmi.get_value_at_indices(var_name, dest0, [0])))
         if var_name_counter1 == 0: 
             pass_count += 1
     except: 
@@ -261,12 +263,14 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
     # set_value()
     try:
+        # from csdm example
         ind = np.zeros_like(bmi.get_value_ptr(var_name)) - 99
         bmi.set_value(var_name, ind)
-        print(ind)
+        #print(ind)
         print ("  set value: -99")
         print ("  new value: " + str(bmi.get_value_ptr(var_name)))
-        #print ("  new value: " + str(bmi.get_value(var_name, dest)))    
+        #dest1 = np.empty(bmi.get_grid_size(0), dtype=float)
+        #print ("  new value: " + str(bmi.get_value(var_name, dest1)))    
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
@@ -274,9 +278,10 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
 
     # set_value_at_indices()    
     try:
-        bmi.set_value_at_indices(var_name,[0], [-99])
-        print ("  set value at indices: -99")
-        #print ("  new value at indices: " + str(bmi.get_value_at_indices(var_name, dest, [0])))         
+        bmi.set_value_at_indices(var_name,[0], [-9])
+        print ("  set value at indices: -9")
+        #print ("  new value at indices: " + str(bmi.get_value_at_indices(var_name, dest, [0])))
+        print ("  new value: " + str(bmi.get_value_ptr(var_name)))         
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
