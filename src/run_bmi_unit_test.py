@@ -296,7 +296,7 @@ for var_name in (bmi.get_output_var_names() + bmi.get_input_var_names()):
         if var_name_counter1 == 0: 
             pass_count += 1
     except:
-        bmi_except('set_value_at_indices')
+        bmi_except('set_value_at_indices()')
     
 
     var_name_counter1 += 1
