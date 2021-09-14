@@ -348,7 +348,7 @@ for ff in fail_list:
 # BEGIN BMI UNIT TEST
 # *******************
 
-#  configuration found: C:\Users\JessicaGarrett\Documents\repos\Netcdf_forcing\data\forcing_config.yaml
+#  configuration found: \data\forcing_config.yaml
 #  initializing...
 
 # MODEL INFORMATION
